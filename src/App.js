@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { useFetch } from './hooks';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <header>Welcome to this react app :)</header>
+      <main>
+        <Users />
+      </main>
     </div>
+  );
+}
+
+const Users = () => {
+  const [data, loading] = useFetch('http://localhost:3000/users');
+
+  return (
+    <>
+      { loading ? (
+        'Loading...'
+      ) : (
+      <ul>
+        { data.data.map(user => (
+          <User key={user.id} name={user.name} age={user.age} />
+        ))}
+      </ul>
+      )}
+    </>
+  );
+}
+
+const User = (props) => {
+  return (
+    <li>
+      { props.name } - { props.age }
+    </li>
   );
 }
 
