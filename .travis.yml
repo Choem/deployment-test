@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t choem/deployment-test -f Dockerfile.dev .
+
+script:
+  - docker run choem/deployment-test npm run test -- --coverage
